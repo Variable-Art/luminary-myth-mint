@@ -45,6 +45,9 @@ const FragmentCard: React.FC<{ fragment: FragmentProps; featured?: boolean }> = 
             <Badge variant="outline" className="bg-transparent border-myth-accent/50 text-myth-accent">
               Echo Score: {fragment.echoScore}
             </Badge>
+            <Badge variant="outline" className="bg-transparent border-myth-primary/50 text-myth-primary font-medium">
+              🔥 {points} pts
+            </Badge>
           </div>
           <h3 className="font-serif text-xl text-white font-bold">{fragment.title}</h3>
         </CardHeader>

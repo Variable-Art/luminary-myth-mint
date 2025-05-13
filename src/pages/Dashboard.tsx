@@ -9,7 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { toast } from '@/components/ui/use-toast';
-import { Layers, Gift, Star, Coins } from 'lucide-react';
+import { Layers, Gift, Star, Coins, Flame } from 'lucide-react';
 import FragmentCard, { FragmentProps } from '@/components/FragmentCard';
 
 // Sample user fragments (just two for the dashboard demo)
@@ -22,7 +22,8 @@ const userFragments: FragmentProps[] = [
     creatorHandle: "sophiaAI",
     echoScore: 21,
     generation: 3,
-    parents: ["Wires in the Rain"]
+    parents: ["Wires in the Rain"],
+    points: 128
   },
   {
     id: "7",
@@ -32,7 +33,8 @@ const userFragments: FragmentProps[] = [
     creatorHandle: "green_mind",
     echoScore: 8,
     generation: 4,
-    parents: ["The Hill of Forgotten Code", "Echoes in the Rootnet"]
+    parents: ["The Hill of Forgotten Code", "Echoes in the Rootnet"],
+    points: 63
   }
 ];
 
@@ -51,6 +53,15 @@ const Dashboard: React.FC = () => {
       description: "You've gifted a Myth Seed to @cryptofriend. They can now build on your fragment for free.",
       variant: "default",
     });
+  };
+
+  // User stats for the dashboard
+  const userStats = {
+    totalPoints: 191,
+    fragmentsCreated: 2,
+    fragmentsEchoed: 5,
+    contributionLevel: 30, // percentage
+    currentTier: "Flame" // Ember, Flame, Beacon, Archive
   };
 
   return (
@@ -73,7 +84,7 @@ const Dashboard: React.FC = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-4xl font-serif text-myth-accent">2</p>
+                <p className="text-4xl font-serif text-myth-accent">{userStats.fragmentsCreated}</p>
               </CardContent>
             </Card>
             
@@ -114,6 +125,80 @@ const Dashboard: React.FC = () => {
               </CardContent>
             </Card>
           </div>
+          
+          {/* Points & Contribution Section - New */}
+          <Card className="glass-card border-myth-primary/30 overflow-hidden mb-10">
+            <div className="h-1 w-full bg-gradient-to-r from-myth-primary to-myth-accent"></div>
+            <CardHeader>
+              <CardTitle className="font-serif text-2xl text-white">Points & Contribution</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col md:flex-row items-start gap-8">
+                {/* Total Points & Tier */}
+                <div className="glass-card p-6 rounded-lg w-full md:w-1/2">
+                  <div className="flex justify-between items-center mb-4">
+                    <h3 className="font-serif text-xl text-white">Total Points</h3>
+                    <Badge className="bg-myth-primary/30 text-myth-light border-myth-primary/50 text-lg px-3 py-1">
+                      <Flame size={16} className="mr-2" /> {userStats.totalPoints} pts
+                    </Badge>
+                  </div>
+                  
+                  <div className="bg-white/5 p-4 rounded-md mb-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <span className="font-mono text-white/80">Current Tier</span>
+                      <Badge className="bg-myth-accent/20 text-myth-accent border-myth-accent/50">
+                        {userStats.currentTier}
+                      </Badge>
+                    </div>
+                    
+                    {/* Progress to next tier */}
+                    <div className="w-full bg-white/10 rounded-full h-2 mb-2">
+                      <div className="bg-gradient-to-r from-myth-primary to-myth-accent h-2 rounded-full" style={{ width: '65%' }}></div>
+                    </div>
+                    <p className="text-xs font-mono text-white/60">109 points until Beacon tier</p>
+                  </div>
+                  
+                  <div className="text-sm font-mono text-white/80">
+                    <p className="mb-2">Points determine your visibility in The Luminary and unlock special privileges.</p>
+                    <p>Points are earned through creating, being echoed, and contributing to the ecosystem.</p>
+                  </div>
+                </div>
+                
+                {/* Points Breakdown */}
+                <div className="glass-card p-6 rounded-lg w-full md:w-1/2">
+                  <h3 className="font-serif text-xl text-white mb-4">Points Breakdown</h3>
+                  
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center p-3 bg-white/5 rounded-md">
+                      <span className="font-mono text-white/80">Fragment Creation</span>
+                      <span className="font-mono text-myth-accent">75 pts</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center p-3 bg-white/5 rounded-md">
+                      <span className="font-mono text-white/80">Echoed Fragments</span>
+                      <span className="font-mono text-myth-accent">46 pts</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center p-3 bg-white/5 rounded-md">
+                      <span className="font-mono text-white/80">Revenue Contribution ({userStats.contributionLevel}%)</span>
+                      <span className="font-mono text-myth-accent">55 pts</span>
+                    </div>
+                    
+                    <div className="flex justify-between items-center p-3 bg-white/5 rounded-md">
+                      <span className="font-mono text-white/80">Seed Activations</span>
+                      <span className="font-mono text-myth-accent">15 pts</span>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-4">
+                    <Button variant="outline" className="w-full border-myth-accent/50 text-myth-accent hover:bg-myth-accent/10">
+                      View Points History
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
           
           {/* Myth Seeds Card */}
           <Card className="glass-card border-myth-primary/30 overflow-hidden mb-10">
