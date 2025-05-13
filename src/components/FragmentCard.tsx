@@ -16,6 +16,9 @@ export interface FragmentProps {
   echoScore: number;
   generation: number;
   parents: string[];
+  points?: number;
+  contributionLevel?: number;
+  echoedCount?: number;
 }
 
 const FragmentCard: React.FC<{ fragment: FragmentProps; featured?: boolean }> = ({ 
@@ -24,6 +27,10 @@ const FragmentCard: React.FC<{ fragment: FragmentProps; featured?: boolean }> = 
 }) => {
   const [mintDialogOpen, setMintDialogOpen] = useState(false);
   const [buildDialogOpen, setBuildDialogOpen] = useState(false);
+
+  // Mock values for now - these would come from the fragment data
+  const points = fragment.points || Math.floor(Math.random() * 200);
+  const echoedCount = fragment.echoedCount || Math.floor(Math.random() * 10);
 
   return (
     <>
@@ -45,8 +52,16 @@ const FragmentCard: React.FC<{ fragment: FragmentProps; featured?: boolean }> = 
           <p className="font-mono text-sm text-white/80 mb-4">
             {fragment.excerpt}
           </p>
+          <div className="flex justify-between items-center mb-2">
+            <div className="text-xs text-white/60 font-mono">
+              By: <span className="text-myth-accent">@{fragment.creatorHandle}</span>
+            </div>
+            <div className="text-xs text-white/60 font-mono flex items-center">
+              <span className="mr-1">🔥</span> {points} pts
+            </div>
+          </div>
           <div className="text-xs text-white/60 font-mono">
-            By: <span className="text-myth-accent">@{fragment.creatorHandle}</span>
+            Echoed {echoedCount} {echoedCount === 1 ? 'time' : 'times'}
           </div>
         </CardContent>
         <CardFooter className="flex justify-between border-t border-white/10 pt-4">

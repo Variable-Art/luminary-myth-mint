@@ -20,7 +20,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CheckCircle } from 'lucide-react';
+import { CheckCircle, HelpCircle } from 'lucide-react';
+import { Slider } from '@/components/ui/slider';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface BuildUponDialogProps {
   parentFragment: FragmentProps;
@@ -39,9 +46,19 @@ const BuildUponDialog: React.FC<BuildUponDialogProps> = ({
   const [paymentMethod, setPaymentMethod] = useState('eth');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [contributionShare, setContributionShare] = useState(30); // Default 30%
   
   // Check if user has Myth Seeds available
   const hasMythSeeds = true; // This would come from a user context or API call
+  
+  // Calculate estimated points based on contribution
+  const calculatePoints = () => {
+    // Base points for creating a fragment
+    const basePoints = 50;
+    // Points from contribution (higher % = more points)
+    const contributionPoints = contributionShare * 2;
+    return basePoints + contributionPoints;
+  };
   
   const handleSubmit = () => {
     if (!title.trim() || !content.trim()) {
@@ -116,6 +133,52 @@ const BuildUponDialog: React.FC<BuildUponDialogProps> = ({
                 <p className="font-serif text-sm text-white">{parentFragment.title}</p>
                 <p className="font-mono text-xs text-white/60">by @{parentFragment.creatorHandle}</p>
               </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="font-mono text-sm text-white/80">Luminary Contribution</label>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button variant="ghost" size="icon" className="h-5 w-5 text-white/60 hover:text-white hover:bg-white/10">
+                          <HelpCircle size={14} />
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="bg-myth-dark border-myth-primary/30 text-white max-w-xs">
+                        <p className="text-xs">
+                          Choose how much of your 69% creator revenue to share with The Luminary Project.
+                          Higher contributions earn you more points and visibility in the community.
+                        </p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex-grow">
+                    <Slider 
+                      value={[contributionShare]} 
+                      min={10} 
+                      max={100} 
+                      step={5}
+                      onValueChange={(value) => setContributionShare(value[0])} 
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="w-16 text-right font-mono text-white/90 text-sm">
+                    {contributionShare}%
+                  </div>
+                </div>
+                <div className="flex justify-between mt-1">
+                  <span className="text-xs text-white/60 font-mono">Min: 10%</span>
+                  <span className="text-xs text-white/60 font-mono">Max: 100%</span>
+                </div>
+                <div className="p-2 bg-myth-primary/10 rounded-md mt-2 flex items-center gap-2">
+                  <div className="text-myth-accent">🔥</div>
+                  <div className="text-xs text-white">
+                    <span className="font-bold">{calculatePoints()} points</span> will be earned from this contribution
+                  </div>
+                </div>
+              </div>
               
               <div className="space-y-2">
                 <label className="font-mono text-sm text-white/80">Payment Method</label>
@@ -144,6 +207,10 @@ const BuildUponDialog: React.FC<BuildUponDialogProps> = ({
                 <div className="flex justify-between">
                   <span className="font-mono text-xs text-white/60">You:</span>
                   <span className="font-mono text-xs text-white/90">69%</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="font-mono text-xs text-white/60">The Luminary:</span>
+                  <span className="font-mono text-xs text-white/90">{contributionShare}% of your 69%</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="font-mono text-xs text-white/60">Parent:</span>
@@ -186,6 +253,10 @@ const BuildUponDialog: React.FC<BuildUponDialogProps> = ({
             <p className="font-mono text-sm text-white/70 text-center mb-6">
               Your fragment is now part of The Luminary myth.
             </p>
+            <div className="bg-myth-primary/10 p-3 rounded-md w-full text-center">
+              <div className="text-myth-accent text-sm mb-1">🔥 {calculatePoints()} points earned</div>
+              <div className="text-white/70 text-xs">Contributing {contributionShare}% to The Luminary</div>
+            </div>
           </div>
         )}
       </DialogContent>
