@@ -29,11 +29,11 @@ const HeroSection: React.FC = () => {
           </Button>
           
           <Button asChild size="lg" variant="outline" className="border-myth-accent text-myth-accent hover:bg-myth-accent/10">
-            <Link to="/mint">Mint a Fragment</Link>
+            <Link to="/fragment/1">Mint a Fragment</Link>
           </Button>
           
           <Button asChild size="lg" variant="ghost" className="text-white/70 hover:text-white hover:bg-white/5">
-            <Link to="/build">Start a New Fragment</Link>
+            <Link to="/new-fragment">Start a New Fragment</Link>
           </Button>
         </div>
         
