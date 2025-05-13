@@ -35,9 +35,6 @@ const FragmentCard: React.FC<{ fragment: FragmentProps; featured?: boolean }> = 
         <div className="h-1 w-full bg-gradient-to-r from-myth-primary to-myth-accent"></div>
         <CardHeader className="pb-2">
           <div className="flex flex-wrap justify-between items-start gap-2 mb-2">
-            <Badge variant="outline" className="bg-myth-primary/20 text-myth-light border-myth-primary/50">
-              Gen {fragment.generation}
-            </Badge>
             <Badge variant="outline" className="bg-transparent border-myth-accent/50 text-myth-accent">
               Echo Score: {fragment.echoScore}
             </Badge>
