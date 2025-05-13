@@ -51,11 +51,11 @@ const BuildUponDialog: React.FC<BuildUponDialogProps> = ({
   // Check if user has Myth Seeds available
   const hasMythSeeds = true; // This would come from a user context or API call
   
-  // Calculate estimated points based on contribution
-  const calculatePoints = () => {
-    // Base points for creating a fragment
-    const basePoints = 50;
-    // Points from contribution (higher % = more points)
+  // Calculate points earned per 0.1 ETH
+  const calculatePointsPer01Eth = () => {
+    // Base points for each 0.1 ETH
+    const basePoints = 100;
+    // Additional points based on contribution percentage
     const contributionPoints = contributionShare * 2;
     return basePoints + contributionPoints;
   };
@@ -175,7 +175,7 @@ const BuildUponDialog: React.FC<BuildUponDialogProps> = ({
                 <div className="p-2 bg-myth-primary/10 rounded-md mt-2 flex items-center gap-2">
                   <div className="text-myth-accent">🔥</div>
                   <div className="text-xs text-white">
-                    <span className="font-bold">{calculatePoints()} points</span> will be earned from this contribution
+                    <span className="font-bold">{calculatePointsPer01Eth()} points</span> will be earned for every 0.1 ETH this contribution earns
                   </div>
                 </div>
               </div>
@@ -254,7 +254,7 @@ const BuildUponDialog: React.FC<BuildUponDialogProps> = ({
               Your fragment is now part of The Luminary myth.
             </p>
             <div className="bg-myth-primary/10 p-3 rounded-md w-full text-center">
-              <div className="text-myth-accent text-sm mb-1">🔥 {calculatePoints()} points earned</div>
+              <div className="text-myth-accent text-sm mb-1">🔥 {calculatePointsPer01Eth()} points per 0.1 ETH earned</div>
               <div className="text-white/70 text-xs">Contributing {contributionShare}% to The Luminary</div>
             </div>
           </div>
